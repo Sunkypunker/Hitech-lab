@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hi.Tech Lab, X-Ray & ECG Centre</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Dancing+Script:wght@600&family=DM+Sans:wght@300;400;500&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0B2B5C;
+      --blue:    #1A4FAA;
+      --sky:     #3E7FDB;
+      --pale:    #EAF1FB;
+      --white:   #FFFFFF;
+      --ink:     #0E1A2C;
+      --muted:   #6B84A3;
+      --gold:    #C9A84C;
+      --display: Perpetua, 'Perpetua Titling MT', 'Trajan Pro', 'Big Caslon', 'IM Fell English', 'Palatino Linotype', Georgia, serif;
+      --perpetua: Perpetua, 'Perpetua Titling MT', 'Trajan Pro', 'Big Caslon', 'IM Fell English', 'Palatino Linotype', Georgia, serif;
+      --script:  'Dancing Script', cursive;
+      --serif:   'Perpetua', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+      --sans:    'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5vw;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(26,79,170,0.1);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(11,43,92,.08); }
+
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 1.7rem;
+      font-weight: 400;
+      color: var(--navy);
+      letter-spacing: .04em;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .nav-logo span { color: var(--sky); }
+    .nav-logo .dot { color: #E63946; }
+    .nav-logo sub {
+      font-family: var(--sans);
+      font-size: .55rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #E63946;
+      vertical-align: middle;
+      display: block;
+      line-height: 1;
+      margin-top: -4px;
+    }
+
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      font-size: .85rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      font-size: .8rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--blue);
+      padding: .65rem 1.6rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background .25s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--navy); transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 5vw;
+      padding-top: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* diagonal blue shape */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -10%; right: -8%;
+      width: 52vw; height: 120vh;
+      background: linear-gradient(160deg, var(--pale) 0%, #d0e4f7 100%);
+      clip-path: polygon(18% 0%, 100% 0%, 100% 100%, 0% 100%);
+      z-index: 0;
+    }
+
+    .hero-text {
+      position: relative; z-index: 1;
+      animation: fadeUp .9s ease both;
+    }
+
+    .hero-eyebrow {
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 2rem; height: 1px;
+      background: var(--sky);
+    }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      color: var(--navy);
+      letter-spacing: .06em;
+      margin-bottom: 1.6rem;
+      position: relative;
+    }
+
+    /* Tagline script above heading like "We Care your health..." */
+    .hero-tagline-script {
+      font-family: var(--script);
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: #E63946;
+      display: block;
+      margin-bottom: .3rem;
+      line-height: 1;
+    }
+
+    /* Underline bar beneath main word like Hi.Tech */
+    .hero h1 .word-main {
+      display: inline-block;
+      position: relative;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+    .hero h1 .word-main::after {
+      content: '';
+      position: absolute;
+      bottom: -6px; left: 0; right: 0;
+      height: 3px;
+      background: var(--navy);
+    }
+
+    /* Red accent dot like the Hi.Tech logo dot */
+    .hero h1 .dot-accent {
+      display: inline-block;
+      width: 14px; height: 14px;
+      background: #E63946;
+      border-radius: 50%;
+      margin-left: 4px;
+      vertical-align: super;
+      position: relative;
+      top: 0.2em;
+    }
+
+    /* Decorative spiky flourish like the teal starburst */
+    .hero-flourish {
+      display: inline-block;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      color: var(--sky);
+      line-height: 1;
+      vertical-align: middle;
+      margin-left: .2rem;
+      animation: spin-slow 18s linear infinite;
+    }
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Subtitle strip beneath heading like "LAB, X-RAY & ECG CENTRE" */
+    .hero-subtitle-strip {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: clamp(.7rem, 1.2vw, .88rem);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #E63946;
+      border-top: 2px solid #E63946;
+      border-bottom: 2px solid #E63946;
+      padding: .3rem .1rem;
+      margin-bottom: 1.8rem;
+      display: block;
+      width: fit-content;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 420px;
+      margin-bottom: 2.8rem;
+    }
+
+    .hero-actions { display: flex; gap: 1.2rem; align-items: center; }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      padding: .9rem 2.2rem;
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      box-shadow: 0 4px 20px rgba(26,79,170,.25);
+    }
+    .btn-primary:hover {
+      background: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(26,79,170,.35);
+    }
+
+    .btn-ghost {
+      color: var(--navy);
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+      transition: gap .25s, color .25s;
+    }
+    .btn-ghost:hover { gap: .85rem; color: var(--blue); }
+    .btn-ghost::after { content: '→'; }
+
+    /* hero visual */
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      animation: fadeUp .9s .2s ease both;
+    }
+
+    .hero-card {
+      background: var(--white);
+      border-radius: 6px;
+      padding: 2.8rem;
+      box-shadow: 0 20px 60px rgba(11,43,92,.12);
+      width: 340px;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue), var(--sky));
+      border-radius: 6px 6px 0 0;
+    }
+
+    .card-tag {
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--sky);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    .card-stat {
+      font-family: var(--display);
+      font-size: 3.4rem;
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: .3rem;
+      letter-spacing: .03em;
+    }
+    .card-label {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .card-divider {
+      height: 1px;
+      background: var(--pale);
+      margin-bottom: 2rem;
+    }
+    .card-items { display: flex; flex-direction: column; gap: .9rem; }
+    .card-item {
+      display: flex; align-items: center; gap: .8rem;
+      font-size: .88rem; color: var(--ink);
+    }
+    .card-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--sky);
+      flex-shrink: 0;
+    }
+
+    /* floating badge */
+    .hero-badge {
+      position: absolute;
+      bottom: -1.5rem; right: -2rem;
+      background: var(--navy);
+      color: var(--white);
+      padding: 1rem 1.4rem;
+      border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(11,43,92,.25);
+      text-align: center;
+    }
+    .badge-num {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--gold);
+    }
+    .badge-text { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+
+    /* ─── CLIENTS ─── */
+    .clients {
+      background: var(--pale);
+      padding: 2.4rem 5vw;
+      display: flex; align-items: center; gap: 3rem;
+      overflow: hidden;
+    }
+    .clients-label {
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .clients-track {
+      display: flex; gap: 3.5rem; align-items: center;
+      animation: scroll 22s linear infinite;
+      white-space: nowrap;
+    }
+    .client-name {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--navy);
+      opacity: .4;
+      transition: opacity .3s;
+    }
+    .client-name:hover { opacity: .75; }
+
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ─── SERVICES ─── */
+    .services {
+      padding: 8rem 5vw;
+    }
+    .section-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 5rem;
+    }
+    .section-eyebrow {
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .section-eyebrow::before {
+      content: ''; display: block;
+      width: 1.5rem; height: 1px;
+      background: var(--sky);
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.12;
+      letter-spacing: .05em;
+    }
+    .section-title em { font-style: italic; color: var(--sky); }
+    .section-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+      align-self: end;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--pale);
+    }
+
+    .service-card {
+      background: var(--white);
+      padding: 3rem 2.5rem;
+      transition: background .3s;
+      cursor: default;
+    }
+    .service-card:hover { background: var(--navy); }
+    .service-card:hover .service-num,
+    .service-card:hover .service-title,
+    .service-card:hover .service-text { color: var(--white); }
+    .service-card:hover .service-icon-line { background: rgba(255,255,255,.2); }
+    .service-card:hover .service-icon { color: var(--gold); }
+
+    .service-num {
+      font-family: var(--serif);
+      font-size: .85rem;
+      color: var(--sky);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      transition: color .3s;
+    }
+
+    .service-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      transition: color .3s;
+    }
+
+    .service-icon-line {
+      width: 2.5rem; height: 1px;
+      background: var(--pale);
+      margin-bottom: 1.5rem;
+      transition: background .3s;
+    }
+
+    .service-title {
+      font-family: var(--display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: .9rem;
+      line-height: 1.2;
+      letter-spacing: .05em;
+      transition: color .3s;
+    }
+    .service-text {
+      font-size: .9rem;
+      line-height: 1.7;
+      color: var(--muted);
+      transition: color .3s;
+    }
+    .service-card:hover .service-text { color: rgba(255,255,255,.65); }
+
+    /* ─── STATS ─── */
+    .stats {
+      background: var(--navy);
+      padding: 6rem 5vw;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(62,127,219,.25) 0%, transparent 65%);
+    }
+    .stat { position: relative; z-index: 1; }
+    .stat-num {
+      font-family: var(--display);
+      font-size: clamp(2.8rem, 4vw, 4.2rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: .5rem;
+      letter-spacing: .03em;
+    }
+    .stat-num span { color: var(--gold); }
+    .stat-label {
+      font-size: .82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      font-weight: 400;
+    }
+    .stat-divider {
+      width: 1.5rem; height: 1px;
+      background: var(--sky);
+      margin-bottom: .9rem;
+    }
+
+    /* ─── PROCESS ─── */
+    .process {
+      padding: 8rem 5vw;
+      background: var(--pale);
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 5rem;
+    }
+    .process-steps { display: flex; flex-direction: column; gap: 0; }
+    .process-step {
+      display: flex; gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(26,79,170,.1);
+      cursor: default;
+    }
+    .process-step:last-child { border-bottom: none; }
+    .step-num {
+      font-family: var(--display);
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: rgba(26,79,170,.12);
+      line-height: 1;
+      min-width: 3rem;
+      transition: color .3s;
+      letter-spacing: .02em;
+    }
+    .process-step:hover .step-num { color: var(--sky); }
+    .step-body {}
+    .step-title {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--navy);
+      margin-bottom: .5rem;
+      letter-spacing: .03em;
+    }
+    .step-text {
+      font-size: .88rem;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    /* process visual panel */
+    .process-panel {
+      background: var(--white);
+      border-radius: 6px;
+      padding: 3rem;
+      box-shadow: 0 20px 60px rgba(11,43,92,.08);
+      position: relative;
+    }
+    .process-panel::after {
+      content: '';
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      width: 100%; height: 100%;
+      border: 2px solid rgba(26,79,170,.12);
+      border-radius: 6px;
+      z-index: -1;
+    }
+    .panel-quote {
+      font-family: var(--script);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+    .panel-author { display: flex; align-items: center; gap: 1rem; }
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-family: var(--serif); font-weight: 700; font-size: 1.1rem;
+    }
+    .author-name {
+      font-weight: 500;
+      font-size: .9rem;
+      color: var(--navy);
+    }
+    .author-role { font-size: .78rem; color: var(--muted); }
+    .panel-stars { color: var(--gold); font-size: .9rem; margin-bottom: 1.5rem; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      padding: 8rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .cta-title {
+      font-family: var(--display);
+      font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: .03em;
+    }
+    .cta-title em { font-style: normal; color: var(--sky); }
+    .cta-sub {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: .45rem; }
+    .form-label {
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .form-input, .form-textarea {
+      border: 1.5px solid rgba(26,79,170,.15);
+      border-radius: 2px;
+      padding: .85rem 1rem;
+      font-family: var(--sans);
+      font-size: .9rem;
+      color: var(--ink);
+      background: var(--white);
+      transition: border-color .25s, box-shadow .25s;
+      outline: none;
+      width: 100%;
+    }
+    /* ─── PHONE INPUT ─── */
+    .phone-wrapper {
+      display: flex;
+      gap: 0;
+      border: 1.5px solid rgba(26,79,170,.15);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .phone-wrapper:focus-within {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,79,170,.08);
+    }
+    .phone-wrapper.invalid {
+      border-color: #E63946 !important;
+      box-shadow: 0 0 0 3px rgba(230,57,70,.1) !important;
+    }
+    .phone-wrapper.valid {
+      border-color: #1A7A4A !important;
+      box-shadow: 0 0 0 3px rgba(26,122,74,.08) !important;
+    }
+    .country-select-wrapper {
+      background: var(--pale);
+      border-right: 1.5px solid rgba(26,79,170,.12);
+      flex-shrink: 0;
+    }
+    .country-select {
+      border: none; outline: none;
+      background: transparent;
+      padding: .85rem .7rem;
+      font-family: var(--sans);
+      font-size: .88rem;
+      color: var(--navy);
+      font-weight: 600;
+      cursor: pointer;
+      height: 100%;
+    }
+    .phone-input-wrapper { flex: 1; }
+    .phone-input {
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      width: 100%;
+    }
+    .phone-input:focus {
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .field-error {
+      display: none;
+      color: #E63946;
+      font-size: .78rem;
+      margin-top: .35rem;
+      align-items: center;
+      gap: .3rem;
+    }
+    .field-error.show { display: flex; }
+    .field-valid {
+      color: #1A7A4A;
+      font-size: .78rem;
+      margin-top: .35rem;
+    }
+
+    /* ─── SERVICE CHIPS ─── */
+    .service-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem;
+      margin-top: .3rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .5rem 1rem;
+      border: 1.5px solid rgba(26,79,170,.2);
+      border-radius: 50px;
+      background: var(--white);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: .82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+    }
+    .chip:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--pale);
+    }
+    .chip.selected {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: white;
+      box-shadow: 0 3px 10px rgba(26,79,170,.25);
+    }
+    .chip.selected:hover {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: white;
+    }
+
+    /* ─── DATETIME PICKER ─── */
+    .datetime-picker {
+      border: 1.5px solid rgba(26,79,170,.15);
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    /* Calendar */
+    .cal-wrapper {
+      padding: 1rem 1rem .8rem;
+      border-bottom: 1.5px solid rgba(26,79,170,.08);
+    }
+    .cal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: .8rem;
+    }
+    .cal-header span {
+      font-weight: 600; font-size: .92rem; color: var(--navy);
+    }
+    .cal-nav {
+      background: none; border: 1.5px solid rgba(26,79,170,.15);
+      border-radius: 4px; width: 28px; height: 28px;
+      cursor: pointer; font-size: 1.1rem; color: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, color .2s;
+      line-height: 1;
+    }
+    .cal-nav:hover { background: var(--blue); color: white; }
+
+    .cal-days-header {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      text-align: center; margin-bottom: .4rem;
+    }
+    .cal-days-header span {
+      font-size: .72rem; font-weight: 600;
+      letter-spacing: .06em; color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .cal-grid {
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%; font-size: .82rem;
+      cursor: pointer; color: var(--ink);
+      transition: background .18s, color .18s;
+      border: none; background: none;
+    }
+    .cal-day:hover:not(.disabled):not(.empty) {
+      background: var(--pale); color: var(--blue);
+    }
+    .cal-day.today { font-weight: 700; color: var(--blue); }
+    .cal-day.selected {
+      background: var(--blue) !important;
+      color: white !important; font-weight: 600;
+    }
+    .cal-day.disabled {
+      color: #ccc; cursor: not-allowed; pointer-events: none;
+    }
+    .cal-day.empty { pointer-events: none; }
+
+    /* Time Slider */
+    .time-wrapper {
+      padding: 1rem 1rem 1.2rem;
+    }
+    .time-label-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: .8rem;
+    }
+    .time-title {
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+    }
+    .time-display {
+      font-size: 1.1rem; font-weight: 700;
+      color: var(--blue); font-family: var(--display);
+      letter-spacing: .04em;
+    }
+
+    .time-slider {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      height: 5px; border-radius: 5px; outline: none;
+      background: linear-gradient(to right, var(--blue) 0%, var(--blue) 0%, var(--pale) 0%, var(--pale) 100%);
+      cursor: pointer; margin-bottom: .5rem;
+    }
+    .time-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--blue); cursor: pointer;
+      box-shadow: 0 2px 8px rgba(26,79,170,.35);
+      border: 3px solid white;
+      transition: transform .15s;
+    }
+    .time-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    .time-slider::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--blue); cursor: pointer;
+      box-shadow: 0 2px 8px rgba(26,79,170,.35);
+      border: 3px solid white;
+    }
+
+    .time-marks {
+      display: flex; justify-content: space-between;
+      font-size: .68rem; color: var(--muted); margin-top: .2rem;
+    }
+    .time-note {
+      font-size: .72rem; color: var(--muted);
+      text-align: center; margin-top: .7rem;
+      padding-top: .7rem;
+      border-top: 1px solid var(--pale);
+    }
+
+    /* Selected display */
+    .selected-dt-display {
+      margin-top: .6rem;
+      background: var(--pale);
+      border: 1.5px solid rgba(26,79,170,.15);
+      border-radius: 4px;
+      padding: .6rem 1rem;
+      font-size: .88rem;
+      color: var(--navy);
+      font-weight: 500;
+      text-align: center;
+    }
+      border-color: #E63946 !important;
+      box-shadow: 0 0 0 3px rgba(230,57,70,.1) !important;
+      background: #fff8f8;
+    }
+    .form-input.valid {
+      border-color: #1A7A4A !important;
+      box-shadow: 0 0 0 3px rgba(26,122,74,.08) !important;
+    }
+    #emailError {
+      display: none;
+      color: #E63946;
+      font-size: .78rem;
+      margin-top: .35rem;
+      align-items: center;
+      gap: .3rem;
+    }
+    #emailError.show { display: flex; }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,79,170,.08);
+    }
+    .form-textarea { resize: none; height: 120px; }
+    .form-submit {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 1rem 2.5rem;
+      font-family: var(--sans);
+      font-size: .88rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      align-self: flex-start;
+      transition: background .25s, transform .2s, box-shadow .25s;
+      box-shadow: 0 4px 20px rgba(26,79,170,.25);
+    }
+    .form-submit:hover {
+      background: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(26,79,170,.35);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--ink);
+      padding: 4rem 5vw 2.5rem;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      margin-bottom: 2rem;
+    }
+    .footer-brand { font-family: var(--display); font-size: 1.6rem; color: var(--white); font-weight: 400; margin-bottom: .8rem; letter-spacing: .04em; }
+    .footer-brand span { color: var(--sky); }
+    .footer-tagline { font-size: .85rem; color: rgba(255,255,255,.35); line-height: 1.6; }
+    .footer-col-title {
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      font-weight: 500;
+      margin-bottom: 1.3rem;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: .7rem; }
+    .footer-links a {
+      font-size: .88rem;
+      color: rgba(255,255,255,.45);
+      text-decoration: none;
+      transition: color .25s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: .8rem; color: rgba(255,255,255,.25); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding-top: 7rem; }
+      .hero::after { display: none; }
+      .hero-visual { display: none; }
+      .section-header { grid-template-columns: 1fr; gap: 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .cta-section { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a class="nav-logo" href="#" style="font-family: Perpetua, 'Perpetua Titling MT', 'IM Fell English', Georgia, serif;">
+      <span>HI<span class="dot">.</span>TECH LAB</span>
+      <sub style="font-family: var(--sans);">X-Ray &amp; ECG Centre</sub>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact">Appointments</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Book a Test</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Diagnostic Services</p>
+      <h1>
+        <span class="hero-tagline-script">We Care your health...</span>
+        <span class="word-main" style="font-family: Perpetua, 'Perpetua Titling MT', 'Trajan Pro', 'Big Caslon', 'IM Fell English', 'Palatino Linotype', Georgia, serif;">HI<span style="color:#E63946">.</span>TECH LAB<span class="dot-accent"></span></span>
+        <span class="hero-flourish">✳</span>
+      </h1>
+      <span class="hero-subtitle-strip">Lab · X-Ray · ECG Centre</span>
+      <p class="hero-sub">Accurate diagnostics, fast results, and compassionate care — all under one roof. Your health is our highest priority.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Book an Appointment</a>
+        <a href="#services" class="btn-ghost">Our Services</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card">
+        <p class="card-tag">Patient Trust</p>
+        <div class="card-stat">99%</div>
+        <p class="card-label">accuracy rate across all diagnostics</p>
+        <div class="card-divider"></div>
+        <div class="card-items">
+          <div class="card-item"><div class="card-dot"></div> Blood & Urine Tests</div>
+          <div class="card-item"><div class="card-dot"></div> Digital X-Ray</div>
+          <div class="card-item"><div class="card-dot"></div> ECG & Cardiac Tests</div>
+          <div class="card-item"><div class="card-dot"></div> Health Packages</div>
+        </div>
+        <div class="hero-badge">
+          <div class="badge-num">10+</div>
+          <div class="badge-text">Years of Care</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS TICKER -->
+  <div class="clients">
+    <span class="clients-label">Affiliated with</span>
+    <div class="clients-track">
+      <span class="client-name">Apollo Hospitals</span>
+      <span class="client-name">NABL Accredited</span>
+      <span class="client-name">ISO Certified</span>
+      <span class="client-name">City Health Clinic</span>
+      <span class="client-name">MediCare Network</span>
+      <span class="client-name">LifeCare Partners</span>
+      <span class="client-name">Apollo Hospitals</span>
+      <span class="client-name">NABL Accredited</span>
+      <span class="client-name">ISO Certified</span>
+      <span class="client-name">City Health Clinic</span>
+      <span class="client-name">MediCare Network</span>
+      <span class="client-name">LifeCare Partners</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">What We Offer</p>
+        <h2 class="section-title">Expert diagnostics at every <em>level</em></h2>
+      </div>
+      <p class="section-desc">From routine blood tests to advanced imaging, Hi.Tech Lab provides a full spectrum of diagnostic services with precision, speed, and the care you deserve.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-icon">🩸</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">Blood Tests</h3>
+        <p class="service-text">Complete blood count, lipid profiles, diabetes screening, thyroid, liver & kidney function tests — all processed in our certified in-house lab.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <div class="service-icon">🔬</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">Urine & Stool Analysis</h3>
+        <p class="service-text">Routine and microscopic urinalysis, culture & sensitivity, and stool examination for comprehensive infection and metabolic assessment.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <div class="service-icon">🩻</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">Digital X-Ray</h3>
+        <p class="service-text">State-of-the-art digital radiography for chest, bone, and joint imaging — with same-day reports delivered quickly and accurately.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <div class="service-icon">❤️</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">ECG</h3>
+        <p class="service-text">12-lead electrocardiography for cardiac screening, pre-operative assessment, and monitoring — interpreted by experienced professionals.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <div class="service-icon">📋</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">Health Packages</h3>
+        <p class="service-text">Affordable full-body checkup packages for individuals, couples, and seniors — designed to catch problems early and keep you well.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <div class="service-icon">🏠</div>
+        <div class="service-icon-line"></div>
+        <h3 class="service-title">Home Sample Collection</h3>
+        <p class="service-text">Can't visit us? Our trained technicians come to you. Book a home visit for blood draws and sample collection at your convenience.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat reveal">
+      <div class="stat-divider"></div>
+      <div class="stat-num">50K<span>+</span></div>
+      <div class="stat-label">Patients served</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-divider"></div>
+      <div class="stat-num">100<span>+</span></div>
+      <div class="stat-label">Tests available</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-divider"></div>
+      <div class="stat-num">10<span>+</span></div>
+      <div class="stat-label">Years of service</div>
+    </div>
+    <div class="stat reveal">
+      <div class="stat-divider"></div>
+      <div class="stat-num">99<span>%</span></div>
+      <div class="stat-label">Accuracy rate</div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-eyebrow">How It Works</p>
+        <h2 class="section-title">Your visit, <em>simplified</em></h2>
+      </div>
+      <p class="section-desc">Getting tested at Hi.Tech Lab is quick, easy, and stress-free. Here's what to expect from the moment you walk in to when you receive your results.</p>
+    </div>
+
+    <div class="process-grid">
+      <div class="process-steps">
+        <div class="process-step reveal">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3 class="step-title">Register & Consult</h3>
+            <p class="step-text">Walk in or book an appointment. Our staff will guide you on which tests are right for you based on your doctor's prescription or health concern.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3 class="step-title">Sample Collection</h3>
+            <p class="step-text">Our trained phlebotomists collect samples quickly and hygienically — blood, urine, or other specimens — in our clean, comfortable collection room.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3 class="step-title">Lab Processing</h3>
+            <p class="step-text">Samples are processed in our certified in-house laboratory using modern automated analysers for fast, precise, and reliable results.</p>
+          </div>
+        </div>
+        <div class="process-step reveal">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h3 class="step-title">Receive Your Report</h3>
+            <p class="step-text">Reports are delivered in person, by WhatsApp, or via email — often within a few hours. Our team is available to explain your results clearly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-panel reveal">
+        <div class="panel-stars">★★★★★</div>
+        <p class="panel-quote">"Hi.Tech Lab gave me my results within 3 hours. The staff were so kind and professional — I won't go anywhere else for my tests."</p>
+        <div class="panel-author">
+          <div class="author-avatar">RK</div>
+          <div>
+            <div class="author-name">Rahul Kumar</div>
+            <div class="author-role">Patient, Regular Customer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT -->
+  <section class="cta-section" id="contact">
+    <div>
+      <p class="section-eyebrow">Get in Touch</p>
+      <h2 class="cta-title">Book your <em>test</em><br>today</h2>
+      <p class="cta-sub">Walk in anytime or fill in the form to schedule your appointment. Our team will confirm your slot and guide you on preparation — fasting requirements, timing, and more.</p>
+      <p style="font-size:.85rem; color:var(--muted);">✦ Fast Reports &nbsp;·&nbsp; ✦ Home Collection Available &nbsp;·&nbsp; ✦ Affordable Pricing</p>
+    </div>
+    <div class="reveal">
+      <form class="contact-form" id="bookingForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" id="firstName" type="text" placeholder="Rahul" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" id="lastName" type="text" placeholder="Sharma" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <div class="phone-wrapper">
+            <div class="country-select-wrapper">
+              <select id="countryCode" class="country-select" onchange="validatePhone()">
+                <option value="+91|IN|10">🇮🇳 +91</option>
+                <option value="+1|US|10">🇺🇸 +1</option>
+                <option value="+1|CA|10">🇨🇦 +1 CA</option>
+                <option value="+44|GB|10">🇬🇧 +44</option>
+                <option value="+61|AU|9">🇦🇺 +61</option>
+                <option value="+971|AE|9">🇦🇪 +971</option>
+                <option value="+966|SA|9">🇸🇦 +966</option>
+                <option value="+974|QA|8">🇶🇦 +974</option>
+                <option value="+965|KW|8">🇰🇼 +965</option>
+                <option value="+968|OM|8">🇴🇲 +968</option>
+                <option value="+973|BH|8">🇧🇭 +973</option>
+                <option value="+92|PK|10">🇵🇰 +92</option>
+                <option value="+880|BD|10">🇧🇩 +880</option>
+                <option value="+94|LK|9">🇱🇰 +94</option>
+                <option value="+95|MM|9">🇲🇲 +95</option>
+                <option value="+60|MY|10">🇲🇾 +60</option>
+                <option value="+65|SG|8">🇸🇬 +65</option>
+                <option value="+63|PH|10">🇵🇭 +63</option>
+                <option value="+49|DE|11">🇩🇪 +49</option>
+                <option value="+33|FR|9">🇫🇷 +33</option>
+                <option value="+39|IT|10">🇮🇹 +39</option>
+                <option value="+34|ES|9">🇪🇸 +34</option>
+                <option value="+7|RU|10">🇷🇺 +7</option>
+                <option value="+86|CN|11">🇨🇳 +86</option>
+                <option value="+81|JP|10">🇯🇵 +81</option>
+                <option value="+82|KR|10">🇰🇷 +82</option>
+                <option value="+55|BR|11">🇧🇷 +55</option>
+                <option value="+27|ZA|9">🇿🇦 +27</option>
+                <option value="+234|NG|10">🇳🇬 +234</option>
+                <option value="+254|KE|9">🇰🇪 +254</option>
+              </select>
+            </div>
+            <div class="phone-input-wrapper">
+              <input class="form-input phone-input" id="phoneNumber" type="tel"
+                placeholder="98765 43210" oninput="validatePhone()" onblur="validatePhone()" required />
+            </div>
+          </div>
+          <span id="phoneError" class="field-error">
+            ⚠️ <span id="phoneErrorMsg">Please enter a valid phone number</span>
+          </span>
+          <span id="phoneValid" class="field-valid" style="display:none;">
+            ✅ Valid phone number
+          </span>
+          <input type="hidden" id="phone" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address (for your confirmation)</label>
+          <input class="form-input" id="patientEmail" type="email" placeholder="your@email.com" oninput="validateEmail(this)" onblur="validateEmail(this)" autocomplete="email" />
+          <span id="emailError" style="display:none; color:#E63946; font-size:.78rem; margin-top:.3rem; display:none; align-items:center; gap:.3rem;">
+            ⚠️ Please enter a valid email address (e.g. name@gmail.com)
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Test / Service Required</label>
+          <div class="service-chips" id="serviceChips">
+            <button type="button" class="chip" data-value="Sample Collection">🩸 Sample Collection</button>
+            <button type="button" class="chip" data-value="ECG">❤️ ECG</button>
+            <button type="button" class="chip" data-value="OPG (Dental X-Ray)">🦷 OPG</button>
+            <button type="button" class="chip" data-value="Histopathology">🔬 Histopathology</button>
+            <button type="button" class="chip" data-value="X-Ray">🩻 X-Ray</button>
+            <button type="button" class="chip" data-value="Blood Test">💉 Blood Test</button>
+            <button type="button" class="chip" data-value="Urine Analysis">🧪 Urine Analysis</button>
+            <button type="button" class="chip" data-value="Health Package">📋 Health Package</button>
+            <button type="button" class="chip" data-value="Home Sample Collection">🏠 Home Collection</button>
+            <button type="button" class="chip" data-value="Other">➕ Other</button>
+          </div>
+          <input type="hidden" id="service" required />
+          <span id="serviceError" style="display:none; color:#E63946; font-size:.78rem; margin-top:.4rem;">
+            ⚠️ Please select at least one service
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Preferred Date & Time</label>
+
+          <!-- Date Picker -->
+          <div class="datetime-picker">
+
+            <!-- Calendar -->
+            <div class="cal-wrapper">
+              <div class="cal-header">
+                <button type="button" class="cal-nav" id="prevMonth">&#8249;</button>
+                <span id="calMonthYear"></span>
+                <button type="button" class="cal-nav" id="nextMonth">&#8250;</button>
+              </div>
+              <div class="cal-days-header">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span>
+                <span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="cal-grid" id="calGrid"></div>
+            </div>
+
+            <!-- Time Slider -->
+            <div class="time-wrapper">
+              <div class="time-label-row">
+                <span class="time-title">⏰ Select Time</span>
+                <span class="time-display" id="timeDisplay">7:00 AM</span>
+              </div>
+              <input type="range" id="timeSlider" class="time-slider"
+                min="0" max="26" step="1" value="0" />
+              <div class="time-marks">
+                <span>7 AM</span>
+                <span>12 PM</span>
+                <span>4 PM</span>
+                <span>8 PM</span>
+              </div>
+              <div class="time-note">Mon–Sat: 7am–8pm &nbsp;|&nbsp; Sun: 8am–2pm</div>
+            </div>
+
+          </div>
+
+          <!-- Hidden field that gets submitted -->
+          <input type="hidden" id="datetime" />
+          <div id="selectedDateTime" class="selected-dt-display" style="display:none;"></div>
+        </div>
+        <!-- Status message -->
+        <div id="formStatus" style="display:none; padding:.9rem 1rem; border-radius:3px; font-size:.88rem; font-weight:500;"></div>
+        <button class="form-submit" id="submitBtn" type="submit">Book Appointment →</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand" style="font-family: Perpetua, 'Perpetua Titling MT', 'IM Fell English', Georgia, serif;">HI<span class="dot" style="color:#E63946">.</span>TECH <span style="color:var(--sky)">LAB</span></div>
+        <p class="footer-tagline">Lab · X-Ray · ECG Centre<br>We Care your health...</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Services</p>
+        <ul class="footer-links">
+          <li><a href="#">Blood Tests</a></li>
+          <li><a href="#">Digital X-Ray</a></li>
+          <li><a href="#">ECG</a></li>
+          <li><a href="#">Health Packages</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Quick Links</p>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Book Appointment</a></li>
+          <li><a href="#">Home Collection</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Contact</p>
+        <ul class="footer-links">
+          <li><a href="#">📞 +91 98765 43210</a></li>
+          <li><a href="#">📍 Your Address Here</a></li>
+          <li><a href="#">🕐 Mon–Sat: 7am – 8pm</a></li>
+          <li><a href="#">🕐 Sun: 8am – 2pm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Hi.Tech Lab, X-Ray & ECG Centre. All rights reserved.</p>
+      <p class="footer-copy">Privacy Policy · Terms of Service</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll nav shadow
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 30);
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // ─── PHONE VALIDATION ──────────────────────────────────────
+    function validatePhone() {
+      const select      = document.getElementById('countryCode');
+      const numberInput = document.getElementById('phoneNumber');
+      const hiddenPhone = document.getElementById('phone');
+      const wrapper     = numberInput.closest('.phone-wrapper');
+      const errorEl     = document.getElementById('phoneError');
+      const errorMsg    = document.getElementById('phoneErrorMsg');
+      const validEl     = document.getElementById('phoneValid');
+
+      const parts      = select.value.split('|');
+      const dialCode   = parts[0];   // e.g. +91
+      const countryISO = parts[1];   // e.g. IN
+      const digits     = parseInt(parts[2]); // expected digit count
+
+      // Strip spaces, dashes, brackets from input
+      const raw = numberInput.value.replace(/[\s\-\(\)]/g, '');
+
+      if (raw === '') {
+        wrapper.classList.remove('invalid','valid');
+        errorEl.classList.remove('show');
+        validEl.style.display = 'none';
+        hiddenPhone.value = '';
+        return false;
+      }
+
+      // Must be all digits
+      const onlyDigits = /^\d+$/.test(raw);
+
+      // India special: starts with 6,7,8,9
+      let startsCorrect = true;
+      if (countryISO === 'IN') {
+        startsCorrect = /^[6-9]/.test(raw);
+      }
+
+      const isValid = onlyDigits && raw.length === digits && startsCorrect;
+
+      if (isValid) {
+        wrapper.classList.remove('invalid');
+        wrapper.classList.add('valid');
+        errorEl.classList.remove('show');
+        validEl.style.display = 'block';
+        hiddenPhone.value = `${dialCode} ${raw}`;
+      } else {
+        wrapper.classList.remove('valid');
+        wrapper.classList.add('invalid');
+        validEl.style.display = 'none';
+        errorEl.classList.add('show');
+
+        if (!onlyDigits) {
+          errorMsg.textContent = 'Only digits allowed — no letters or symbols';
+        } else if (countryISO === 'IN' && !startsCorrect) {
+          errorMsg.textContent = 'Indian numbers must start with 6, 7, 8 or 9';
+        } else if (raw.length < digits) {
+          errorMsg.textContent = `Too short — need ${digits} digits (you entered ${raw.length})`;
+        } else if (raw.length > digits) {
+          errorMsg.textContent = `Too long — need ${digits} digits (you entered ${raw.length})`;
+        } else {
+          errorMsg.textContent = `Please enter a valid ${digits}-digit number`;
+        }
+      }
+      return isValid;
+    }
+
+    // ─── SERVICE CHIPS ─────────────────────────────────────────
+    const chips = document.querySelectorAll('.chip');
+    const serviceInput = document.getElementById('service');
+    const serviceError = document.getElementById('serviceError');
+    let selectedServices = [];
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const val = chip.dataset.value;
+        if (chip.classList.contains('selected')) {
+          // Deselect
+          chip.classList.remove('selected');
+          selectedServices = selectedServices.filter(s => s !== val);
+        } else {
+          // Select
+          chip.classList.add('selected');
+          selectedServices.push(val);
+        }
+        serviceInput.value = selectedServices.join(', ');
+        // Hide error once something is selected
+        if (selectedServices.length > 0) {
+          serviceError.style.display = 'none';
+        }
+      });
+    });
+
+    // ─── CALENDAR & TIME SLIDER ────────────────────────────────
+    const TIME_SLOTS = [
+      '7:00 AM','7:30 AM','8:00 AM','8:30 AM','9:00 AM','9:30 AM',
+      '10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM',
+      '1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM',
+      '4:00 PM','4:30 PM','5:00 PM','5:30 PM','6:00 PM','6:30 PM',
+      '7:00 PM','7:30 PM','8:00 PM'
+    ];
+
+    let calDate = new Date();
+    let selectedDate = null;
+    let selectedTime = TIME_SLOTS[0];
+
+    const MONTHS = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    function renderCalendar() {
+      const year = calDate.getFullYear();
+      const month = calDate.getMonth();
+      document.getElementById('calMonthYear').textContent = `${MONTHS[month]} ${year}`;
+
+      const grid = document.getElementById('calGrid');
+      grid.innerHTML = '';
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      // Empty cells before first day
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('button');
+        empty.className = 'cal-day empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cal-day';
+        btn.textContent = d;
+
+        const thisDate = new Date(year, month, d);
+        thisDate.setHours(0,0,0,0);
+
+        if (thisDate < today) btn.classList.add('disabled');
+        if (thisDate.toDateString() === today.toDateString()) btn.classList.add('today');
+        if (selectedDate && thisDate.toDateString() === selectedDate.toDateString()) {
+          btn.classList.add('selected');
+        }
+
+        btn.addEventListener('click', () => {
+          selectedDate = thisDate;
+          renderCalendar();
+          updateHiddenField();
+        });
+
+        grid.appendChild(btn);
+      }
+    }
+
+    // Time slider
+    const slider = document.getElementById('timeSlider');
+    const timeDisplay = document.getElementById('timeDisplay');
+
+    function updateSliderTrack() {
+      const pct = (slider.value / slider.max) * 100;
+      slider.style.background = `linear-gradient(to right, var(--blue) ${pct}%, var(--pale) ${pct}%)`;
+      selectedTime = TIME_SLOTS[slider.value];
+      timeDisplay.textContent = selectedTime;
+      updateHiddenField();
+    }
+    slider.addEventListener('input', updateSliderTrack);
+    updateSliderTrack();
+
+    function updateHiddenField() {
+      const hiddenField = document.getElementById('datetime');
+      const display = document.getElementById('selectedDateTime');
+      if (selectedDate && selectedTime) {
+        const dateStr = selectedDate.toLocaleDateString('en-IN', {
+          weekday: 'short', day: 'numeric', month: 'long', year: 'numeric'
+        });
+        const val = `${dateStr} at ${selectedTime}`;
+        hiddenField.value = val;
+        display.style.display = 'block';
+        display.innerHTML = `📅 <strong>${val}</strong>`;
+      } else if (selectedTime) {
+        hiddenField.value = `Time: ${selectedTime} (date not selected)`;
+        display.style.display = 'none';
+      }
+    }
+
+    // Nav buttons
+    document.getElementById('prevMonth').addEventListener('click', () => {
+      calDate.setMonth(calDate.getMonth() - 1);
+      renderCalendar();
+    });
+    document.getElementById('nextMonth').addEventListener('click', () => {
+      calDate.setMonth(calDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+
+    // ─── EMAIL VALIDATION ─────────────────────────────────────
+    function validateEmail(input) {
+      const error = document.getElementById('emailError');
+      const val = input.value.trim();
+
+      // If empty, it's optional — clear any error
+      if (val === '') {
+        input.classList.remove('invalid', 'valid');
+        error.classList.remove('show');
+        return true;
+      }
+
+      // Strict email regex: must have text@text.domain
+      const emailRegex = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      const isValid = emailRegex.test(val);
+
+      if (isValid) {
+        input.classList.remove('invalid');
+        input.classList.add('valid');
+        error.classList.remove('show');
+      } else {
+        input.classList.remove('valid');
+        input.classList.add('invalid');
+        error.classList.add('show');
+      }
+      return isValid;
+    }
+
+    // ─── FORM SUBMIT ──────────────────────────────────────────
+    const HITECH_WHATSAPP = '919447320604';   // Your WhatsApp number
+    const HITECH_EMAIL    = 'hitechlabpnr@gmail.com'; // Your Gmail
+
+    // EmailJS config — fill these in after signing up at emailjs.com (free)
+    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
+    const EMAILJS_TEMPLATE_TO_YOU      = 'YOUR_TEMPLATE_ID_1'; // Template that emails YOU
+    const EMAILJS_TEMPLATE_TO_PATIENT  = 'YOUR_TEMPLATE_ID_2'; // Auto-reply to patient
+    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'xxxxxxxxxxxxxxxxxxx'
+    // ─────────────────────────────────────────────────────────
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      // Block if phone is invalid
+      if (!validatePhone()) {
+        document.getElementById('phoneNumber').focus();
+        return;
+      }
+
+      // Block if no service selected
+      if (selectedServices.length === 0) {
+        serviceError.style.display = 'block';
+        document.getElementById('serviceChips').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Block if email is filled but invalid
+      const emailInput = document.getElementById('patientEmail');
+      if (emailInput.value.trim() !== '' && !validateEmail(emailInput)) {
+        emailInput.focus();
+        return;
+      }
+
+      const firstName  = document.getElementById('firstName').value.trim();
+      const lastName   = document.getElementById('lastName').value.trim();
+      const phone      = document.getElementById('phone').value.trim();
+      const email      = document.getElementById('patientEmail').value.trim();
+      const service    = document.getElementById('service').value.trim();
+      const datetime   = document.getElementById('datetime').value.trim();
+      const fullName   = `${firstName} ${lastName}`;
+
+      const btn    = document.getElementById('submitBtn');
+      const status = document.getElementById('formStatus');
+
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+
+      // ── 1. WHATSAPP (opens instantly for you) ──────────────
+      const waMessage = encodeURIComponent(
+        `🏥 *New Appointment Booking — Hi.Tech Lab*\n\n` +
+        `👤 *Patient:* ${fullName}\n` +
+        `📞 *Phone:* ${phone}\n` +
+        `📧 *Email:* ${email || 'Not provided'}\n` +
+        `🔬 *Service:* ${service}\n` +
+        `🗓️ *Preferred Time:* ${datetime || 'Not specified'}\n\n` +
+        `_Booking received from website_`
+      );
+      window.open(`https://wa.me/${HITECH_WHATSAPP}?text=${waMessage}`, '_blank');
+
+      // ── 2. EMAIL via EmailJS ───────────────────────────────
+      const emailParams = {
+        to_email:      HITECH_EMAIL,
+        patient_name:  fullName,
+        patient_phone: phone,
+        patient_email: email || 'Not provided',
+        service:       service,
+        datetime:      datetime || 'Not specified',
+        reply_to:      email || HITECH_EMAIL,
+      };
+
+      try {
+        // Check if EmailJS is configured
+        if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+          // Send notification to Hi.Tech Lab
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_TO_YOU, emailParams, EMAILJS_PUBLIC_KEY);
+
+          // Send auto-reply to patient (only if they gave an email)
+          if (email) {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_TO_PATIENT, {
+              to_email:     email,
+              patient_name: firstName,
+              service:      service,
+              datetime:     datetime || 'to be confirmed',
+              lab_phone:    '+91 9447320604',
+              lab_email:    HITECH_EMAIL,
+            }, EMAILJS_PUBLIC_KEY);
+          }
+        }
+
+        // ── SUCCESS ──
+        status.style.display = 'block';
+        status.style.background = '#e6f4ea';
+        status.style.color = '#1A7A4A';
+        status.style.border = '1px solid #b7dfbf';
+        status.innerHTML = `✅ <strong>Booking received!</strong> We'll confirm your appointment shortly. Check WhatsApp & email for updates.`;
+        btn.textContent = 'Appointment Booked ✓';
+        btn.style.background = '#1A7A4A';
+        btn.style.opacity = '1';
+
+        setTimeout(() => {
+          btn.textContent = 'Book Appointment →';
+          btn.style.background = '';
+          btn.disabled = false;
+          status.style.display = 'none';
+          document.getElementById('bookingForm').reset();
+          // Reset chips
+          chips.forEach(c => c.classList.remove('selected'));
+          selectedServices = [];
+          serviceInput.value = '';
+          // Reset phone
+          document.getElementById('phoneNumber').value = '';
+          document.getElementById('phone').value = '';
+          document.getElementById('phoneNumber').closest('.phone-wrapper').classList.remove('valid','invalid');
+          document.getElementById('phoneValid').style.display = 'none';
+          document.getElementById('phoneError').classList.remove('show');
+        }, 5000);
+
+      } catch (err) {
+        // EmailJS failed but WhatsApp already opened — still show success
+        status.style.display = 'block';
+        status.style.background = '#fff8e1';
+        status.style.color = '#7a5c00';
+        status.style.border = '1px solid #ffe082';
+        status.innerHTML = `⚠️ WhatsApp opened successfully! Email confirmation needs EmailJS setup — see instructions below.`;
+        btn.textContent = 'Book Appointment →';
+        btn.style.background = '';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+        console.error('EmailJS error:', err);
+      }
+    }
+  </script>
+
+  <!-- EmailJS SDK — free at emailjs.com -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</body>
+</html>
